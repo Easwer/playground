@@ -1,6 +1,5 @@
 package com.easwer.collection.streams;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
@@ -12,6 +11,11 @@ import java.util.stream.Stream;
 
 public class StreamsExample {
 
+    /**
+     * http://tutorials.jenkov.com/java-functional-programming/streams.html#pageToc
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         List<Employee> sampleList = createEmployees();
         StreamsExample streamsExample = new StreamsExample();
@@ -57,10 +61,19 @@ public class StreamsExample {
         // streamsExample.testForEach(sampleList);
 
         // return min element based on the provided comparetor
-        streamsExample.testMin(sampleList);
+        // streamsExample.testMin(sampleList);
 
         // return max element based on the provided comparetor
-        streamsExample.testMax(sampleList);
+        // streamsExample.testMax(sampleList);
+
+        // convert streams into array of objects
+        // streamsExample.testToArray(sampleList);
+
+        // Concatination
+        // streamsExample.testConcat(sampleList);
+
+        // Convert array to Stream
+        streamsExample.testStreamFromArray(sampleList);
     }
 
     private static List<Employee> createEmployees() {
@@ -274,14 +287,35 @@ public class StreamsExample {
 
     public void testToArray(List<Employee> sampleList) {
         System.out.println("*** TO ARRAY START ***");
-        Stream<Employee> stream = sampleList.stream();
-        System.out.println("***  END ***");
+        Object[] empArray = sampleList.stream().toArray();
+        for (Object obj : empArray) {
+            if (obj instanceof Employee)
+                System.out.println(((Employee) obj).toString());
+        }
+        System.out.println("*** TO ARRAY END ***");
     }
 
     public void testPeek(List<Employee> sampleList) {
-        System.out.println("***  START ***");
+        System.out.println("*** PEEK START ***");
         Stream<Employee> stream = sampleList.stream();
-        System.out.println("***  END ***");
+        System.out.println("*** PEEK END ***");
+    }
+
+    public void testConcat(List<Employee> sampleList) {
+        System.out.println("*** CONCAT START ***");
+        Stream<Employee> stream = Stream.concat(sampleList.stream(), sampleList.stream());
+        Stream<Employee> stream1 = Stream.concat(sampleList.stream(), sampleList.stream());
+        stream.forEach((value) -> System.out.println(value.toString()));
+        System.out.println("************************");
+        stream1.distinct().forEach((value) -> System.out.println(value.toString()));
+        System.out.println("*** CONCAT END ***");
+    }
+
+    public void testStreamFromArray(List<Employee> sampleList) {
+        System.out.println("*** CONCAT START ***");
+        Stream<String> stream = Stream.of("aaa","bbb","ccc","ddd");
+        stream.forEach((value) -> System.out.println(value.toString()));
+        System.out.println("*** CONCAT END ***");
     }
 
 }
